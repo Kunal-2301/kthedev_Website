@@ -1,0 +1,22 @@
+{
+  "name": "kunal-gupta-portfolio",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Kunal Gupta \u2014 AI Engineer portfolio with a Supabase-backed admin CMS (static site, GitHub Pages).",
+  "type": "module",
+  "scripts": {
+    "test": "node --test --test-reporter=spec \"tests/**/*.test.mjs\"",
+    "test:db": "node --test --test-reporter=spec \"tests/db/*.test.mjs\"",
+    "test:unit": "node --test --test-reporter=spec \"tests/unit/*.test.mjs\"",
+    "check": "node scripts/check.mjs",
+    "build:migration": "node scripts/build-migration.mjs",
+    "build:seo": "node scripts/build-seo.mjs",
+    "test:e2e": "node --test --test-reporter=spec \"tests/e2e/*.test.mjs\"",
+    "dev": "node tests/e2e/server.mjs 8787"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.17",
+    "@supabase/supabase-js": "^2.119.2",
+    "jsdom": "^26.1.0"
+  }
+}

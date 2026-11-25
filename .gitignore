@@ -1,0 +1,7 @@
+node_modules/
+.env
+.env.*
+supabase/.temp/
+Kunal_Gupta_Resume.pdf
+.DS_Store
+_site/

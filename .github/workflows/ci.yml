@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Static security checks (no secrets, strict CSP, no raw HTML injection)
+        run: npm run check
+      - name: Generated migration is up to date
+        run: |
+          npm run build:migration
+          git diff --exit-code supabase/migrations supabase/seed.sql
+      - name: Database (RLS), unit and end-to-end tests
+        run: npm test
