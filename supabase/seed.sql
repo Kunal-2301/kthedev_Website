@@ -7,15 +7,16 @@
 -- Skill levels are a conservative starting point — review them in /admin.
 -- =============================================================================
 
-insert into public.profiles (id, full_name, handle, tagline, designation, hero_headline, hero_description, intro, about_md, focus_areas, location,
+insert into public.profiles (id, full_name, handle, tagline, availability, designation, hero_headline, hero_description, intro, about_md, focus_areas, location,
                              email, phone, github_url, linkedin_url, footer_text, seo_title, seo_description)
 values (1,
   'Kunal Gupta',
   'kthedev',
   'GenAI · Agentic AI · RAG · Python Backend',
+  'Open to AI/ML Engineer & Python Backend roles',
   'Python Backend Developer | AI Engineer',
   'Engineering Intelligent Systems. Building the Future with AI.',
-  'Python Backend Developer & AI Engineer specializing in Generative AI, Agentic Systems, RAG and production-ready AI applications.',
+  'I build Python backends and AI applications that ship: a RAG chatbot over PDFs, computer-vision models at 92–94% accuracy, and a manufacturing ERP running in production with 1,400+ automated tests.',
   'I''m Kunal — a Computer Science graduate from Amity University Noida who builds backend systems and AI applications, from model training to deployment.',
   $md$I completed my **B.Tech in Computer Science and Engineering** at Amity University Noida (2022–2026), where my work gravitated toward machine learning, computer vision and, increasingly, large language models.
 
@@ -40,14 +41,15 @@ Today my focus is **Python backend engineering and applied AI**: FastAPI service
   'Portfolio of Kunal Gupta, a Python Backend Developer and AI Engineer working on Generative AI, Agentic AI, RAG, deep learning and production-ready AI applications.')
 on conflict (id) do nothing;
 
-insert into public.site_settings (id, site_title, meta_description, keywords, theme_default, contact_email, contact_phone)
+insert into public.site_settings (id, site_title, meta_description, keywords, theme_default, contact_email, contact_phone, analytics_enabled)
 values (1,
   'Kunal Gupta — Python Backend Developer & AI Engineer',
   'Portfolio of Kunal Gupta, a Python Backend Developer and AI Engineer working on Generative AI, Agentic AI, RAG, deep learning and production-ready AI applications.',
   'Kunal Gupta, AI Engineer, Python Backend Developer, Generative AI, Agentic AI, RAG, LangChain, FastAPI, Machine Learning',
   'light',
   'kunalguptag11@gmail.com',
-  '+91 96253 22563')
+  '+91 96253 22563',
+  false)  -- optional extras stay off until you turn them on in Website settings
 on conflict (id) do nothing;
 
 -- Navigation -------------------------------------------------------------------
@@ -175,7 +177,7 @@ values
  array['Custom CNN architecture', 'Multi-class classification', 'End-to-end training and evaluation pipeline', 'Metric analysis against baseline models'],
  'Deep Learning', 'completed', 'https://github.com/Kunal-2301/Skin-Lesion-Classification', null,
  '[{"label":"Accuracy","value":"94%","description":"Reported overall accuracy, outperforming the baseline models evaluated."}]',
- true, 1, 'published',
+ true, 3, 'published',
  'Custom CNN for multi-class skin lesion classification with TensorFlow/Keras and OpenCV — 94% reported accuracy.'),
 
 ('document-qa-chatbot', 'AI-Powered Document Q&A Chatbot',
@@ -191,7 +193,7 @@ values
 6. **Interface** — interactive Streamlit app$md$,
  array['PDF upload and parsing', 'Text chunking', 'Embedding-based semantic retrieval', 'Retrieval-augmented answers', 'Interactive Streamlit interface'],
  'Generative AI', 'completed', 'https://github.com/Kunal-2301/ChatWithPDF', null, '[]',
- true, 2, 'published',
+ true, 1, 'published',
  'RAG chatbot over uploaded PDFs with LangChain, embeddings, semantic retrieval and Streamlit.'),
 
 ('yolov8-smoke-cigarette-detection', 'YOLOv8 Smoke & Cigarette Detection',
@@ -206,7 +208,7 @@ values
  array['Custom annotated dataset', 'YOLOv8 fine-tuning with augmentation', 'Flask inference web app'],
  'Computer Vision', 'completed', 'https://github.com/Kunal-2301/smoker_classification', null,
  '[{"label":"Detection accuracy","value":"92%","description":"Reported on the held-out test set."}]',
- true, 3, 'published',
+ true, 4, 'published',
  'YOLOv8 object detection for cigarettes and smoke, fine-tuned on a custom dataset and served with Flask — 92% reported accuracy.'),
 
 ('manufacturing-erp-system', 'Manufacturing ERP System',
@@ -221,7 +223,7 @@ values
  array['Inventory management', 'Purchasing', 'Dispatch', 'Billing', 'Payroll', 'Role-based access per business unit'],
  'Full-Stack', 'maintained', null, 'https://erp.guptagroups.in/',
  '[{"label":"Automated tests","value":"1,400+","description":"Automated tests running in CI."}]',
- true, 4, 'published',
+ true, 2, 'published',
  'Production ERP for a manufacturing factory with Node.js, Express and SQLite — inventory, purchasing, dispatch, billing, payroll and 1,400+ CI tests.')
 on conflict (slug) do nothing;
 

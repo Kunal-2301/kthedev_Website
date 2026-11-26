@@ -9,7 +9,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const PUBLIC = ['index.html', 'project.html', '404.html', 'admin', 'js', 'css', 'assets', 'robots.txt', 'sitemap.xml'];
+const PUBLIC = ['index.html', 'project.html', 'resume.html', '404.html', 'admin', 'js', 'css', 'assets', 'robots.txt', 'sitemap.xml'];
 const problems = [];
 
 async function walk(p) {

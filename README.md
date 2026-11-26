@@ -45,7 +45,7 @@ scripts/    check.mjs · build-migration.mjs · build-seo.mjs · assets/ (OG ima
 assets/     favicon, OG image, self-hosted fonts (Inter, JetBrains Mono — SIL OFL 1.1)
 tests/      db/ (RLS + behaviour, real Postgres in PGlite) · e2e/ (local Supabase-compatible server + supabase-js)
             unit/ (validation, XSS sanitization, repo hygiene)
-docs/       SETUP.md · ADMIN-GUIDE.md · SECURITY.md · TEST-REPORT.md
+docs/       QUICKSTART.md · SETUP.md · ADMIN-GUIDE.md · SECURITY.md · TEST-REPORT.md
 ```
 
 ## Quick start (local, no Supabase account needed)
@@ -62,7 +62,7 @@ The local server is a development/test tool only; production uses Supabase.
 
 ## Going live
 
-Follow **[docs/SETUP.md](docs/SETUP.md)** — about 20 minutes: create a Supabase project, run the SQL, create your
+Fastest path: **[docs/QUICKSTART.md](docs/QUICKSTART.md)** (minimum setup). Full guide: **[docs/SETUP.md](docs/SETUP.md)** — about 20 minutes: create a Supabase project, run the SQL, create your
 admin account, deploy three Edge Functions, put the project URL + publishable key in `js/config.js`, and enable
 GitHub Pages (GitHub Actions source).
 

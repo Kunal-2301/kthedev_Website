@@ -5,7 +5,7 @@ import { renderMarkdown, markdownToText } from '../core/markdown.js';
 import { publicUrl } from '../core/supabase.js';
 import { loadSite, fetchProject } from '../core/content.js';
 import { renderHeader, renderFooter, renderPreviewBanner, applySeo, win, setupReveal, baseUrl } from './layout.js';
-import { track, trackOutboundClicks } from './analytics.js';
+import { track, trackOutboundClicks, setAnalyticsEnabled } from './analytics.js';
 import { siteHref, projectHref, currentProjectSlug } from '../core/paths.js';
 import { mountAssistant } from './assistant.js';
 
@@ -48,9 +48,9 @@ function render(site, p) {
   const next = idx >= 0 && idx < site.projects.length - 1 ? site.projects[idx + 1] : null;
 
   const links = [
-    safeUrl(p.github_url) && h('a', { class: 'btn btn-sm', href: p.github_url, target: '_blank', rel: 'noopener noreferrer' }, '$ git clone ↗'),
-    safeUrl(p.demo_url) && h('a', { class: 'btn btn-sm btn-solid', href: p.demo_url, target: '_blank', rel: 'noopener noreferrer' }, '$ open demo ↗'),
-    safeUrl(p.docs_url) && h('a', { class: 'btn btn-sm', href: p.docs_url, target: '_blank', rel: 'noopener noreferrer' }, '$ man docs ↗'),
+    safeUrl(p.github_url) && h('a', { class: 'btn btn-sm', href: p.github_url, target: '_blank', rel: 'noopener noreferrer' }, 'Source code ↗'),
+    safeUrl(p.demo_url) && h('a', { class: 'btn btn-sm btn-solid', href: p.demo_url, target: '_blank', rel: 'noopener noreferrer' }, 'Live demo ↗'),
+    safeUrl(p.docs_url) && h('a', { class: 'btn btn-sm', href: p.docs_url, target: '_blank', rel: 'noopener noreferrer' }, 'Documentation ↗'),
     ...(p.resources || []).filter((r) => safeUrl(r.url)).map((r) =>
       h('a', { class: 'btn btn-sm', href: r.url, target: '_blank', rel: 'noopener noreferrer' }, `${r.label} ↗`)),
   ].filter(Boolean);
@@ -58,7 +58,7 @@ function render(site, p) {
   mount(main,
     h('div', { class: 'container' },
       h('nav', { class: 'crumbs', aria: { label: 'Breadcrumb' } },
-        h('a', { href: siteHref(`index.html${preview ? '?preview=1' : ''}#projects`) }, '$ cd ../projects')),
+        h('a', { href: siteHref(`index.html${preview ? '?preview=1' : ''}#projects`) }, '← All projects')),
       h('header', { class: 'case-head' },
         h('div', { class: 'case-meta' },
           p.category && h('span', { class: 'p-c' }, `~/${slugify(p.category)}`),
@@ -144,9 +144,10 @@ function state(code, title, text, action) {
     if (!res) {
       document.title = `Project not found — ${site?.profile?.full_name || 'Portfolio'}`;
       return state('404: project not found', 'This project does not exist or is not published.', null,
-        h('a', { class: 'btn btn-sm', href: siteHref('index.html#projects') }, '$ cd ../projects'));
+        h('a', { class: 'btn btn-sm', href: siteHref('index.html#projects') }, '← All projects'));
     }
     render(site, res.project);
+    setAnalyticsEnabled(site?.settings?.analytics_enabled);
     track('page_view');
     track('project_view', { slug: res.project.slug });
     trackOutboundClicks();
@@ -155,6 +156,6 @@ function state(code, title, text, action) {
     console.error(e);
     state(e?.code === 'not_configured' ? 'error: site not configured' : 'error: could not load this project',
       e?.code === 'not_configured' ? e.message : 'Check your connection and try again.', null,
-      h('button', { class: 'btn btn-sm', type: 'button', on: { click: () => location.reload() } }, '$ retry'));
+      h('button', { class: 'btn btn-sm', type: 'button', on: { click: () => location.reload() } }, 'Retry'));
   }
 })();

@@ -3,7 +3,7 @@
 import { h } from '../core/dom.js';
 import { functionUrl } from '../core/supabase.js';
 import { CONFIG } from '../config.js';
-import { win, cursor, socialButtons } from './layout.js';
+import { win, socialButtons } from './layout.js';
 
 const EMAIL_RE = /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/;
 
@@ -35,10 +35,10 @@ export function renderContact(site) {
   let turnstileToken = '';
 
   const f = {
-    name: field('name', '--name', h('input', { class: 'inp', type: 'text', autocomplete: 'name', maxlength: 100, required: true })),
-    email: field('email', '--email', h('input', { class: 'inp', type: 'email', autocomplete: 'email', maxlength: 254, required: true, inputmode: 'email', spellcheck: 'false' })),
-    subject: field('subject', '--subject (optional)', h('input', { class: 'inp', type: 'text', maxlength: 200 })),
-    message: field('message', '--message', h('textarea', { class: 'inp', rows: 6, maxlength: 5000, required: true })),
+    name: field('name', 'Name', h('input', { class: 'inp', type: 'text', autocomplete: 'name', maxlength: 100, required: true })),
+    email: field('email', 'Email', h('input', { class: 'inp', type: 'email', autocomplete: 'email', maxlength: 254, required: true, inputmode: 'email', spellcheck: 'false' })),
+    subject: field('subject', 'Subject (optional)', h('input', { class: 'inp', type: 'text', maxlength: 200 })),
+    message: field('message', 'Message', h('textarea', { class: 'inp', rows: 6, maxlength: 5000, required: true })),
   };
   const honeypot = h('div', { class: 'hp', aria: { hidden: 'true' } },
     h('label', { for: 'cf-company' }, 'Company (leave blank)'),
@@ -55,7 +55,7 @@ export function renderContact(site) {
 
   const form = h('form', { class: 'contact-form', novalidate: true, aria: { label: 'Contact form' } },
     h('div', { class: 'form-row' }, f.name.el, f.email.el), f.subject.el, f.message.el, honeypot, turnstileBox, statusBox,
-    h('div', { class: 'form-foot' }, h('small', null, '# used only to reply to you'), submit));
+    h('div', { class: 'form-foot' }, h('small', null, 'Used only to reply to you.'), submit));
 
   if (CONFIG.turnstileSiteKey) {
     loadTurnstile().then((ts) => ts?.render(turnstileBox, {
@@ -89,13 +89,17 @@ export function renderContact(site) {
       }
       form.reset();
       statusBox.className = 'form-status ok';
-      statusBox.textContent = '✓ message sent — I will get back to you soon.';
+      statusBox.textContent = '✓ Message sent. I will get back to you soon.';
       if (window.turnstile) window.turnstile.reset(turnstileBox);
     } catch (e) {
       statusBox.className = 'form-status bad';
-      statusBox.textContent = navigator.onLine === false
-        ? '✗ you appear to be offline — your message is still in the form.'
-        : `✗ ${e.message} Your message is still in the form.`;
+      statusBox.replaceChildren(navigator.onLine === false
+        ? '✗ You appear to be offline. Your message is still in the form.'
+        : `✗ ${e.message} Your message is still in the form.`);
+      if (p.email) {
+        const mail = `mailto:${p.email}?subject=${encodeURIComponent(v.subject || 'Hello from your portfolio')}&body=${encodeURIComponent(v.message)}`;
+        statusBox.append(' You can also ', h('a', { href: mail }, `email me directly at ${p.email}`), '.');
+      }
     } finally {
       submit.disabled = false;
       submit.textContent = 'Send message';
@@ -108,11 +112,10 @@ export function renderContact(site) {
       h('h2', { class: 'contact-title rv', id: 'contact-title' }, "Let's build something", h('span', { class: 'p-c' }, '.')),
       h('p', { class: 'contact-lede rv' }, 'Open to AI Engineer, Python Backend and Generative AI roles, internships and collaborations. Email is the fastest way to reach me.'),
       win('contact.sh',
-        email && [h('p', { class: 'cmd' }, '$ echo $EMAIL'), h('a', { href: `mailto:${email}`, class: 'a-hover' }, email)],
-        p.phone && [h('p', { class: 'cmd' }, '$ echo $PHONE'), h('a', { href: `tel:${p.phone.replace(/[^\d+]/g, '')}` }, p.phone)],
-        p.location && [h('p', { class: 'cmd' }, '$ echo $LOCATION'), h('p', null, p.location)],
-        h('p', { class: 'cmd' }, '$ open --links'),
-        h('div', { class: 'contact-links' }, socialButtons(site)),
-        h('p', { class: 'cmd' }, '$', cursor()))),
+        email && [h('p', { class: 'cmd' }, 'email'), h('a', { href: `mailto:${email}` }, email)],
+        p.phone && [h('p', { class: 'cmd' }, 'phone'), h('a', { href: `tel:${p.phone.replace(/[^\d+]/g, '')}` }, p.phone)],
+        p.location && [h('p', { class: 'cmd' }, 'location'), h('p', null, p.location)],
+        h('p', { class: 'cmd' }, 'profiles'),
+        h('div', { class: 'contact-links' }, socialButtons(site)))),
     win('send_message.sh', form));
 }

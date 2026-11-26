@@ -1,5 +1,7 @@
 # Setup & deployment
 
+> Just want it live? [QUICKSTART.md](QUICKSTART.md) is the 15-minute minimum (no AI assistant, analytics or Turnstile).
+
 Time: ~20 minutes. You need a GitHub account and a free Supabase account.
 Values in `<angle brackets>` are yours to fill in.
 
@@ -112,7 +114,7 @@ in `robots.txt` if your URL differs from `https://kunal-2301.github.io`.
 2. **Settings → Pages → Build and deployment → Source: GitHub Actions.**
 3. Optional: **Settings → Variables → Actions → New variable** `SITE_URL` = your public URL (used for the sitemap).
 4. Push to `main`. The **Deploy to GitHub Pages** workflow publishes only the public files
-   (`index.html`, `project.html`, `404.html`, `admin/`, `css/`, `js/`, `assets/`, `robots.txt`) plus a freshly
+   (`index.html`, `project.html`, `resume.html`, `404.html`, `admin/`, `css/`, `js/`, `assets/`, `robots.txt`) plus a freshly
    generated `sitemap.xml`. The **CI** workflow runs the checks and all tests.
 
 Content edits made in `/admin` never need a deployment. The Pages workflow also runs daily to refresh the

@@ -101,7 +101,7 @@ export function renderProjectPage({ siteUrl, supabaseUrl, profile, project: p })
   </header>
   <main id="main" tabindex="-1" data-prerendered="1">
     <div class="container">
-      <nav class="crumbs" aria-label="Breadcrumb"><a href="../../index.html#projects">$ cd ../projects</a></nav>
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="../../index.html#projects">← All projects</a></nav>
       <header class="case-head">
         <div class="case-meta">${p.category ? `<span class="p-c">~/${esc(p.category)}</span>` : ''}</div>
         <h1>${esc(p.title)}<span class="p-c">.</span></h1>
@@ -121,7 +121,7 @@ export function renderProjectPage({ siteUrl, supabaseUrl, profile, project: p })
 }
 
 export function renderSitemap(siteUrl, projects) {
-  const entries = [{ loc: `${siteUrl}/`, priority: '1.0' },
+  const entries = [{ loc: `${siteUrl}/`, priority: '1.0' }, { loc: `${siteUrl}/resume.html`, priority: '0.6' },
     ...projects.map((p) => ({ loc: `${siteUrl}/projects/${encodeURIComponent(p.slug)}/`, lastmod: p.updated_at?.slice(0, 10), priority: '0.8' }))];
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

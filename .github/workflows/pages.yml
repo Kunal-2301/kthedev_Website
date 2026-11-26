@@ -29,7 +29,7 @@ jobs:
       - name: Assemble public files only (no database/, tests/, docs/ or supabase/)
         run: |
           mkdir -p _site
-          cp -r index.html project.html 404.html robots.txt admin css js assets _site/
+          cp -r index.html project.html resume.html 404.html robots.txt admin css js assets _site/
           touch _site/.nojekyll
       - name: Generate sitemap + static project pages from published content
         env:

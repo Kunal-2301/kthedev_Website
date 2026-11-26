@@ -9,7 +9,11 @@ import { previewRequested } from '../core/content.js';
 
 const optedOut = navigator.doNotTrack === '1' || window.doNotTrack === '1' || navigator.globalPrivacyControl === true;
 const local = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
-const enabled = isConfigured() && !optedOut && !previewRequested && !local;
+const allowed = isConfigured() && !optedOut && !previewRequested && !local;
+let enabled = false;
+
+/** Follow the admin switch (Website settings → Analytics). Off = nothing is sent. */
+export function setAnalyticsEnabled(on) { enabled = allowed && on === true; }
 
 export function track(type, data = {}) {
   if (!enabled) return;

@@ -102,7 +102,7 @@ export function renderFooter(site, { onHome }) {
       h('ul', { class: 'footer-links' }, links.map((n) => h('li', null, h('a', { href: navHref(n, onHome) }, n.label)))),
       h('span', null, `© ${new Date().getFullYear()} ${p.full_name}`)),
     h('p', { class: 'footer-note' },
-      [p.footer_text, 'Cookieless, anonymous analytics · respects Do Not Track / GPC.'].filter(Boolean).join(' · '))));
+      [p.footer_text, site.settings?.analytics_enabled === true && 'Cookieless, anonymous analytics · respects Do Not Track / GPC.'].filter(Boolean).join(' · '))));
 }
 
 export function renderPreviewBanner(site) {
