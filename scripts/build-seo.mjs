@@ -26,18 +26,25 @@ async function get(pathAndQuery) {
 await mkdir(outDir, { recursive: true });
 let projects = [];
 if (supabaseUrl && key && !key.startsWith('YOUR_')) {
-  const [profiles, settings, rows] = await Promise.all([
-    get('profiles?select=*&id=eq.1'),
-    get('site_settings?select=canonical_url&id=eq.1'),
-    get('projects?select=*,project_technologies(sort_order,skill:skills(name)),project_images(kind,storage_path,alt_text,sort_order)&order=sort_order.asc'),
-  ]);
-  siteUrl = (process.env.SITE_URL || settings[0]?.canonical_url || siteUrl).replace(/\/$/, '');
-  projects = rows.map(normalizeProject);
-  for (const project of projects) {
-    if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(project.slug)) continue; // never write outside projects/
-    const dir = path.join(outDir, 'projects', project.slug);
-    await mkdir(dir, { recursive: true });
-    await writeFile(path.join(dir, 'index.html'), renderProjectPage({ siteUrl, supabaseUrl, profile: profiles[0] || {}, project }));
+  try {
+    const [profiles, settings, rows] = await Promise.all([
+      get('profiles?select=*&id=eq.1'),
+      get('site_settings?select=canonical_url&id=eq.1'),
+      get('projects?select=*,project_technologies(sort_order,skill:skills(name)),project_images(kind,storage_path,alt_text,sort_order)&order=sort_order.asc'),
+    ]);
+    siteUrl = (process.env.SITE_URL || settings[0]?.canonical_url || siteUrl).replace(/\/$/, '');
+    projects = rows.map(normalizeProject);
+    for (const project of projects) {
+      if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(project.slug)) continue; // never write outside projects/
+      const dir = path.join(outDir, 'projects', project.slug);
+      await mkdir(dir, { recursive: true });
+      await writeFile(path.join(dir, 'index.html'), renderProjectPage({ siteUrl, supabaseUrl, profile: profiles[0] || {}, project }));
+    }
+  } catch (e) {
+    // Never block a deploy on this step: the site itself loads content at runtime.
+    // Project URLs still work via 404.html; the next (daily) deploy retries.
+    console.warn(`::warning::SEO build skipped (${e.message}). Deploying with a home-only sitemap.`);
+    projects = [];
   }
 } else {
   console.warn('Supabase is not configured — writing a sitemap with the home page only.');
