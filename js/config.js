@@ -10,7 +10,7 @@ export const CONFIG = Object.freeze({
   supabaseKey: 'sb_publishable_ycPWsOLDKGiIJWbHp1hUzQ_lOG8zklM',
 
   // Public origin of the site (used for canonical URLs / structured data).
-  siteUrl: 'https://kunal-2301.github.io',
+  siteUrl: 'https://www.kthedev.com',
 
   // Optional Cloudflare Turnstile site key for the contact form ('' = disabled).
   turnstileSiteKey: '',

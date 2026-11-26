@@ -54,7 +54,7 @@ const PAGES = {
     sections: [
       { title: 'General & SEO', fields: [
         { name: 'site_title', label: 'Website title', required: true, max: 120 },
-        { name: 'canonical_url', label: 'Canonical site URL', type: 'url', max: 2048, placeholder: 'https://kunal-2301.github.io',
+        { name: 'canonical_url', label: 'Canonical site URL', type: 'url', max: 2048, placeholder: 'https://www.kthedev.com',
           hint: 'Used for canonical links and structured data.' },
         { name: 'meta_description', label: 'Meta description', type: 'textarea', max: 320, rows: 3 },
         { name: 'keywords', label: 'Keywords', type: 'textarea', max: 500, rows: 2 },

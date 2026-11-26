@@ -19,5 +19,5 @@ verify_jwt = false
 [auth]
 # Admin accounts are created manually; public sign-up must stay disabled.
 enable_signup = false
-site_url = "https://kunal-2301.github.io"
-additional_redirect_urls = ["https://kunal-2301.github.io/admin/", "http://localhost:8787/admin/"]
+site_url = "https://www.kthedev.com"
+additional_redirect_urls = ["https://www.kthedev.com/admin/", "http://localhost:8787/admin/"]
