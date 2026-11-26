@@ -1296,6 +1296,15 @@ create policy "admin read" on public.admin_users for select to authenticated usi
 -- -----------------------------------------------------------------------------
 -- Table privileges: belt and braces on top of RLS
 -- -----------------------------------------------------------------------------
+-- Explicit grants: newer Supabase projects no longer grant table access to the
+-- API roles automatically. RLS (enabled above on every table) still decides which
+-- ROWS each role sees; the revokes below then remove what a role must never do.
+grant usage on schema public to anon, authenticated, service_role;
+grant select on all tables in schema public to anon, authenticated;
+grant insert, update, delete on all tables in schema public to authenticated;
+grant all on all tables in schema public to service_role;
+grant usage, select on all sequences in schema public to authenticated, service_role;
+
 revoke insert, update, delete, truncate on all tables in schema public from anon;
 revoke truncate on all tables in schema public from authenticated;
 revoke insert, update, delete on public.admin_users, public.content_versions, public.admin_activity_logs,

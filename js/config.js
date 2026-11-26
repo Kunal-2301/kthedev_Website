@@ -6,8 +6,8 @@
 // what it can read or write. NEVER put the service_role / secret key here.
 // =============================================================================
 export const CONFIG = Object.freeze({
-  supabaseUrl: 'https://YOUR_PROJECT_REF.supabase.co',
-  supabaseKey: 'YOUR_SUPABASE_PUBLISHABLE_KEY',
+  supabaseUrl: 'https://iiovxzzdkgznqdsaaiwx.supabase.co',
+  supabaseKey: 'sb_publishable_ycPWsOLDKGiIJWbHp1hUzQ_lOG8zklM',
 
   // Public origin of the site (used for canonical URLs / structured data).
   siteUrl: 'https://kunal-2301.github.io',
